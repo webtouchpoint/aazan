@@ -11,6 +11,17 @@
 |
 */
 
+// Admin area
+Route::get('admin', function () {
+    return redirect('/admin/ebooks');
+});
+
+Route::prefix('admin')->group(function() {
+	Route::delete('ebooks/{ebook}/deletefile', 'EbooksController@deleteFile')->name('ebooks.deletefile');
+	Route::resource('ebooks', 'EbooksController');
+});
+
+
 Route::get('/', function () {
 	flash('Welcome Aboard!');
     return view('welcome');
@@ -18,4 +29,5 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::get('/ebooks', 'PagesController@showEBooks')->name('pages.ebooks');
 Route::get('/home', 'HomeController@index')->name('home');

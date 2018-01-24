@@ -1,0 +1,39 @@
+@extends('layouts.master')
+
+@section('content')
+    <h2>Download EBooks</h2>
+    <table class="table table-bordered table-ebooks">
+        <thead>
+            <tr>
+                <th>File</th>
+                <th>&nbsp;</th>
+                <th>Download</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse ($ebooks as $ebook)
+                <tr>
+                    <td>
+                        <a href="{{ asset('storage/ebooks/'.$ebook->filename) }}" target="_blank">
+                            <i class="fa fa-file-pdf-o"></i>
+                        </a>
+                    </td>
+                    <td>
+                        {{ $ebook->title }}
+                    </td>
+                    <td class="text-center">
+                         <a href="{{ asset('storage/ebooks/'.$ebook->filename) }}" download>
+                                <i class="fa fa-download"></i>
+                        </a>
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td>
+                        No EBook found.
+                    </td>
+                </tr>
+            @endforelse
+        </tbody>
+    </table>
+@endsection
