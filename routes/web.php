@@ -16,9 +16,18 @@ Route::get('admin', function () {
     return redirect('/admin/ebooks');
 });
 
+
+Route::get('posts/tags/{tag}', 'TagsController@getPostsByTagName');
+Route::get('blog', 'BlogController@index')->name('blog.index');
+Route::get('blog/{slug}', 'BlogController@showPost')->name('blog.show');;
+
+
 Route::prefix('admin')->group(function() {
 	Route::delete('ebooks/{ebook}/deletefile', 'EbooksController@deleteFile')->name('ebooks.deletefile');
 	Route::resource('ebooks', 'EbooksController');
+	Route::resource('tags', 'TagsController');
+	Route::delete('posts/{post}/deleteimage', 'PostsController@deleteImage')->name('posts.deleteimage');
+	Route::resource('posts', 'PostsController');
 });
 
 

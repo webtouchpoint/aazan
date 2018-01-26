@@ -13,13 +13,15 @@
         <tbody>
             @forelse ($ebooks as $ebook)
                 <tr>
-                    <td>
+                    <td class="text-center">
                         <a href="{{ asset('storage/ebooks/'.$ebook->filename) }}" target="_blank">
                             <i class="fa fa-file-pdf-o"></i>
                         </a>
                     </td>
-                    <td>
-                        {{ $ebook->title }}
+                    <td>                             
+                        <a href="{{ asset('storage/ebooks/'.$ebook->filename) }}" target="_blank">
+                            {{ $ebook->title }}
+                        </a>
                     </td>
                     <td class="text-center">
                          <a href="{{ asset('storage/ebooks/'.$ebook->filename) }}" download>
@@ -29,8 +31,8 @@
                 </tr>
             @empty
                 <tr>
-                    <td>
-                        No EBook found.
+                    <td colspan="3">
+                        No EBooks found.
                     </td>
                 </tr>
             @endforelse

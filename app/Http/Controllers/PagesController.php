@@ -9,7 +9,8 @@ class PagesController extends Controller
 {
     public function showEBooks()
     {
-    	$ebooks =  EBook::all();
+    	$ebooks =  EBook::isLive()
+    		->get();
 
     	return view('pages.ebooks', compact('ebooks'));
     }

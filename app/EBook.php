@@ -3,11 +3,14 @@
 namespace App;
 
 use App\Model;
-use App\Traits\Sluggable;
+use App\Traits\{
+	Sluggable,
+	Live
+};
 
 class EBook extends Model
 {
-	use Sluggable;
+	use Sluggable, Live;
 
 	/**
 	 * Get the route key for the model.

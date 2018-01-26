@@ -7,13 +7,17 @@
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="/">Project name</a>
+			<a class="navbar-brand" href="/">
+				<strong>{{ config('app.name') }}</strong>
+			</a>
 		</div>
 		<div id="navbar" class="collapse navbar-collapse">
 			<!-- Left Side Of Navbar -->
 			<ul class="nav navbar-nav">
-				<li class="active"><a href="/">Home</a></li>
-				<li><a href="{{ route('pages.ebooks') }}">EBooks</a></li>
+				<li class="{{ set_active('/') }}"><a href="/">Home</a></li>
+				<li class="{{ set_active('ebooks') }}"><a href="{{ route('pages.ebooks') }}">EBooks</a></li>
+				<li class="{{ set_active('blog') }} {{ set_active('blog/*') }}"><a href="{{ route('blog.index') }}">Blog</a></li>
+				<li><a href="#about">Videos</a></li>
 				<li><a href="#about">About</a></li>
 				<li><a href="#contact">Contact</a></li>
 			</ul><!-- ./ Left Side Of Navbar -->
@@ -22,8 +26,8 @@
 	        <ul class="nav navbar-nav navbar-right">
 	            <!-- Authentication Links -->
 	            @guest
-	                <li><a href="{{ route('login') }}">Login</a></li>
-	                <li><a href="{{ route('register') }}">Register</a></li>
+	                <li class="{{ set_active('login') }}"><a href="{{ route('login') }}">Login</a></li>
+	                <li class="{{ set_active('register') }}"><a href="{{ route('register') }}">Register</a></li>
 	            @else
 	                <li class="dropdown">
 	                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">

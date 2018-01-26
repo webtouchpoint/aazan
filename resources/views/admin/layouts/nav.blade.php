@@ -7,13 +7,17 @@
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="/">Project name</a>
+			<a class="navbar-brand" href="{{ route('ebooks.index') }}">
+				<strong>{{ config('app.name') }}</strong> - <small>Administration</small>
+			</a>
 		</div>
 		<div id="navbar" class="collapse navbar-collapse">
 			<!-- Left Side Of Navbar -->
 			<ul class="nav navbar-nav">
-				<li class="active"><a href="/">Go to website</a></li>
-				<li><a href="{{ route('ebooks.index') }}">EBooks</a></li>
+				<li><a href="{{ url('/') }}" target="_blank">Go to website</a></li>
+				<li class="{{ set_active('admin/ebooks') }} {{ set_active('admin/ebooks/*') }}"><a href="{{ route('ebooks.index') }}">EBooks</a></li>
+				<li class="{{ set_active('admin/posts') }} {{ set_active('admin/posts/*') }}"><a href="{{ route('posts.index') }}">Posts</a></li>
+				<li class="{{ set_active('admin/tags') }} {{ set_active('admin/tags/*') }}"><a href="{{ route('tags.index') }}">Tags</a></li>
 			</ul><!-- ./ Left Side Of Navbar -->
 
 			<!-- Right Side Of Navbar -->

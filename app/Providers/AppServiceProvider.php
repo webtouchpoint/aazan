@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Tag;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -14,6 +15,11 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         \Schema::defaultStringLength(191);
+
+        \View::composer('*', function($view) {
+            $tags = Tag::select('name', 'slug')->get();
+            $view->with('tags', $tags);
+        });
     }
 
     /**

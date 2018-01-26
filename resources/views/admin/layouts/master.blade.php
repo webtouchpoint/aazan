@@ -17,7 +17,10 @@
 	<!-- Styles -->
 	<link href="{{ asset('css/app.css') }}" rel="stylesheet">
 	<link href="{{ asset('libs/datatable/datatable.min.css') }}" rel="stylesheet">
+	<link href="{{ asset('libs/select2/select2.min.css') }}" rel="stylesheet">
+	<link href="{{ asset('libs/trix/trix.css') }}" rel="stylesheet">
 
+	@yield('styles')
 </head>
 <body>
 	@include('admin.layouts.nav')
@@ -42,6 +45,7 @@
 	<!-- Scripts -->
 	<script src="{{ asset('js/app.js') }}"></script>
 	<script src="{{ asset('libs/datatable/datatable.min.js') }}"></script>
+	<script src="{{ asset('libs/select2/select2.min.js') }}"></script>
 	<script>
 		$('#flash-overlay-modal').modal();
 		$('div.alert').not('.alert-important').delay(3000).fadeOut(350);
