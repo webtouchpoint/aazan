@@ -1,0 +1,11 @@
+.img-media {
+    width: 274px;
+    height: 173px;
+}
+
+@media only screen and (max-width: 768px) {
+    .img-media {
+        width: 64px;
+        height: 64px;
+    }
+}

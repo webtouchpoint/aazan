@@ -17,9 +17,9 @@
 				<li class="{{ set_active('/') }}"><a href="/">Home</a></li>
 				<li class="{{ set_active('ebooks') }}"><a href="{{ route('pages.ebooks') }}">EBooks</a></li>
 				<li class="{{ set_active('blog') }} {{ set_active('blog/*') }}"><a href="{{ route('blog.index') }}">Blog</a></li>
-				<li><a href="#about">Videos</a></li>
-				<li><a href="#about">About</a></li>
-				<li><a href="#contact">Contact</a></li>
+				<li class="{{ set_active('videos') }}"><a href="{{ route('pages.videos') }}">Videos</a></li>
+				<li class="{{ set_active('about') }}"><a href="{{ route('pages.about') }}">About</a></li>
+				<li class="{{ set_active('contact') }}"><a href="{{ route('pages.contact') }}">Contact</a></li>
 			</ul><!-- ./ Left Side Of Navbar -->
 
 			<!-- Right Side Of Navbar -->

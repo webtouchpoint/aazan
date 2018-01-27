@@ -28,15 +28,21 @@ Route::prefix('admin')->group(function() {
 	Route::resource('tags', 'TagsController');
 	Route::delete('posts/{post}/deleteimage', 'PostsController@deleteImage')->name('posts.deleteimage');
 	Route::resource('posts', 'PostsController');
+	Route::resource('videos', 'VideosController');
 });
 
 
 Route::get('/', function () {
-	flash('Welcome Aboard!');
     return view('welcome');
 });
 
+// Authentication
 Auth::routes();
 
+// Pages
+Route::post('/contact', 'PagesController@sendContactMail');
+Route::get('/contact', 'PagesController@showContactPage')->name('pages.contact');
+Route::get('/about', 'PagesController@showAboutPage')->name('pages.about');
+Route::get('/videos', 'PagesController@showVideos')->name('pages.videos');
 Route::get('/ebooks', 'PagesController@showEBooks')->name('pages.ebooks');
 Route::get('/home', 'HomeController@index')->name('home');

@@ -10,8 +10,21 @@
     <hr>
     {!! $post->content !!}
     <hr>
-    <button class="btn btn-primary" onclick="history.go(-1)">
-      « Back
-    </button>
+    <div class="tags-wrapper">       
+        <ul class="list-inline">
+            @foreach($post->tags as $tag)
+                <li>
+                    <a href="{{ url('posts/tags/'.$tag->slug) }}">
+                        {{ $tag->name}}
+                    </a>
+                </li>
+            @endforeach
+        </ul>
+    </div>
+    <div class="back-button-wrapper">
+       <button class="btn btn-primary" onclick="history.go(-1)">
+          « Back
+        </button> 
+    </div>
 @endsection
 
