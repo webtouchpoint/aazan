@@ -29,6 +29,8 @@ Route::prefix('admin')->group(function() {
 	Route::delete('posts/{post}/deleteimage', 'PostsController@deleteImage')->name('posts.deleteimage');
 	Route::resource('posts', 'PostsController');
 	Route::resource('videos', 'VideosController');
+	Route::delete('news/{news}/deletefile', 'NewsController@deleteFile')->name('news.deletefile');
+	Route::resource('news', 'NewsController');
 });
 
 
@@ -40,6 +42,7 @@ Route::get('/', function () {
 Auth::routes();
 
 // Pages
+Route::get('/news', 'PagesController@showNews')->name('pages.news');
 Route::post('/contact', 'PagesController@sendContactMail');
 Route::get('/contact', 'PagesController@showContactPage')->name('pages.contact');
 Route::get('/about', 'PagesController@showAboutPage')->name('pages.about');

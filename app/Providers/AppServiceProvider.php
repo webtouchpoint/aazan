@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Tag;
+use App\News;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -17,8 +18,17 @@ class AppServiceProvider extends ServiceProvider
         \Schema::defaultStringLength(191);
 
         \View::composer('*', function($view) {
-            $tags = Tag::select('name', 'slug')->get();
-            $view->with('tags', $tags);
+            $tags = Tag::select('name', 'slug')
+                ->get();
+            $AllNews = News::select('title', 'filename')
+                ->orderBy('id', 'desc')
+                ->take(10)
+                ->get();
+                
+            $view->with([
+                'tags' => $tags,
+                'AllNews' => $AllNews
+            ]);
         });
     }
 

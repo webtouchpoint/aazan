@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\News;
 use App\EBook;
 use App\Video;
 use Illuminate\Http\Request;
@@ -16,6 +17,15 @@ class PagesController extends Controller
     		->get();
 
     	return view('pages.ebooks', compact('ebooks'));
+    }
+
+    public function showNews()
+    {
+        $allNews =  News::latest()
+            ->isLive()
+            ->get();
+
+        return view('pages.news', compact('allNews'));
     }
 
     public function showVideos()

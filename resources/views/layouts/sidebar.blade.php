@@ -1,11 +1,27 @@
 <div class="col-xs-12 col-sm-3">
- 	<div class="sidebar-module">
-      <h2>News</h2>
-      <ol>
-      	<li>News1</li>
-      	<li>News2</li>
-      </ol>
+    @if ($AllNews->count())
+ 	  <div class="sidebar-module">
+        <h3>News</h3>
+        <ol class="list-unstyled">
+            @foreach($AllNews as $news)
+            <li>
+              <a href="{{ asset('storage/news/'.$news->filename) }}" target="_blank">
+                  {{ $news->title}}
+                  @if($loop->first)
+                     <img src="{{ asset('images/new.gif') }}" width="31" height="12"> 
+                   @endif
+                </a>
+            </li>
+            @endforeach
+            <li>
+                <a href="{{ route('pages.news') }}" target="_blank">
+                  all news...
+                </a>
+            </li>
+        </ol>
     </div>
+    @endif
+
 	 <div class="sidebar-module sidebar-module-inset">
       <h4>About</h4>
       <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>

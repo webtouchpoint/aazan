@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\EBook;
+use App\News;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class EBooksController extends Controller
+class NewsController extends Controller
 {
-    public function __construct()
+     public function __construct()
     {
         $this->middleware(['auth', 'admin']);
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -20,9 +20,9 @@ class EBooksController extends Controller
      */
     public function index()
     {
-        $ebooks = EBook::all();
+        $allNews = News::all();
 
-        return view('admin.ebooks.index', compact('ebooks'));
+        return view('admin.news.index', compact('allNews'));
     }
 
     /**
@@ -32,7 +32,7 @@ class EBooksController extends Controller
      */
     public function create()
     {
-        return view('admin.ebooks.create');
+        return view('admin.news.create');
     }
 
     /**
@@ -46,67 +46,69 @@ class EBooksController extends Controller
         $validatedData = $this->validateData($request);
 
         if ($request->hasFile('filename')) {
-            $path = $request->filename->store('public/ebooks');
+            $path = $request->filename->store('public/news');
         }
 
         if ($request->file('filename')->isValid()) {
             
             $validatedData = array_merge($validatedData, ['filename' => $request->filename->hashName()]);
 
-            EBook::create($validatedData);
+            News::create($validatedData);
 
-            flash('EBook has been saved!');
+            flash('News has been saved!');
 
-            return redirect(route('ebooks.index'));
+            return redirect()
+                ->route('news.index');
         }
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\EBook  $eBook
+     * @param  \App\News  $news
      * @return \Illuminate\Http\Response
      */
-    public function show(EBook $eBook)
+    public function show(News $news)
     {
-
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\EBook  $eBook
+     * @param  \App\News  $news
      * @return \Illuminate\Http\Response
      */
-    public function edit(EBook $eBook)
+    public function edit(News $news)
     {
-        return view('admin.ebooks.edit', compact('eBook'));
+        return view('admin.news.edit', compact('news'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\EBook  $eBook
+     * @param  \App\News  $news
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, EBook $eBook)
+    public function update(Request $request, News $news)
     {
         if ($request->hasFile('filename')) {
             $validatedData = $this->validateData($request);
 
-            $path = $request->filename->store('public/ebooks');
+            $path = $request->filename->store('public/news');
             
 
             if ($request->file('filename')->isValid()) {
                 
                 $validatedData = array_merge($validatedData, ['filename' => $request->filename->hashName()]);
 
-                $eBook->update($validatedData);
+                $news->update($validatedData);
 
-                flash('EBook has been updated!');
+                flash('News has been updated!');
 
-                return redirect(route('ebooks.index'));
+                return redirect()
+                    ->route('news.index');
             }
         }
 
@@ -117,43 +119,32 @@ class EBooksController extends Controller
         ]);
 
 
-        $eBook->update($validatedData);
+        $news->update($validatedData);
 
-        flash('EBook has been updated!');
+        flash('News has been updated!');
 
-        return redirect(route('ebooks.index'));
-
+        return redirect()
+            ->route('news.index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\EBook  $eBook
+     * @param  \App\News  $news
      * @return \Illuminate\Http\Response
      */
-    public function destroy(EBook $eBook)
+    public function destroy(News $news)
     {
-        if($eBook->filename) {
-            Storage::delete('public/ebooks/'.$eBook->filename);
+        if($news->filename) {
+            Storage::delete('public/news/'.$news->filename);
         }
                 
-        $eBook->delete();
+        $news->delete();
 
-        flash('The EBook has been deleted!');
+        flash('The news has been deleted!');
 
-        return redirect(route('ebooks.index'));
-    }
-
-    public function deleteFile(EBook $eBook)
-    {
-        if($eBook->filename) {
-            Storage::delete('public/ebooks/'.$eBook->filename);
-            $eBook->filename = '';
-            $eBook->save();
-            flash('The file has been deleted!');
-        }
-
-        return back();
+        return redirect()
+            ->route('news.index');
     }
 
     protected function validateData($request)
@@ -162,7 +153,19 @@ class EBooksController extends Controller
             'user_id' => 'required|exists:users,id',
             'title' => 'required',
             'description' => 'required',
-            'filename' => 'required|mimes:pdf,jpeg,bmp,png'
+            'filename' => 'required|mimes:pdf,jpeg,bmp,png,doc,docx'
         ]);
+    }
+
+    public function deleteFile(News $news)
+    {
+        if($news->filename) {
+            Storage::delete('public/news/'.$news->filename);
+            $news->filename = '';
+            $news->save();
+            flash('The file has been deleted!');
+        }
+
+        return back();
     }
 }
