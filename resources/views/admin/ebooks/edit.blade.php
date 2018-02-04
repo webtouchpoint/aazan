@@ -3,10 +3,10 @@
 @section('content')
     @component('components.panelWithHeading')
         @slot('title')
-            EBooks - Edit
+            Ebooks - Edit
         @endslot
 
-    <form class="form-horizontal" method="POST" action="{{ route('ebooks.update',  $eBook->slug) }}" enctype="multipart/form-data">
+    <form class="form-horizontal" method="POST" action="{{ route('ebooks.update',  $ebook->slug) }}" enctype="multipart/form-data">
         {{ csrf_field() }}
         {{ method_field('PATCH') }}
 
@@ -18,7 +18,7 @@
                     type="text" 
                     class="form-control" 
                     name="title" 
-                    value="{{ old('title', $eBook->title) }}" autofocus>
+                    value="{{ old('title', $ebook->title) }}" autofocus>
 
                 {!! $errors->first('title', '<span class="help-block">:message</span>') !!}
             </div>
@@ -32,17 +32,38 @@
                     type="text" 
                     class="form-control" 
                     rows="5"
-                    name="description">{{ old('description', $eBook->description ) }}</textarea>
+                    name="description">{{ old('description', $ebook->description ) }}</textarea>
 
                 {!! $errors->first('description', '<span class="help-block">:message</span>') !!}
             </div>
         </div>
-        @if($eBook->filename)
+
+        <div class="form-group{{ $errors->has('tags') ? ' has-error' : '' }}">
+            <label for="tags" class="col-md-4 control-label">Tags</label>
+
+            <div class="col-md-6">
+                <select name="tags[]"
+                    id="tags"
+                    class="form-control"
+                    multiple>
+                    @if (count($allTags) > 0) 
+                        @foreach ($allTags as $tag)
+                            <option value="{{ $tag->id }}" {{ (collect(old('tags', $ebook->tags()->allRelatedIds()))->contains($tag->id)) ? 'selected' : '' }}>
+                                {{ $tag->name }}
+                            </option>
+                        @endforeach
+                    @endif
+                </select>
+
+                {!! $errors->first('tags', '<span class="help-block">:message</span>') !!}
+            </div>
+        </div>
+        @if($ebook->filename)
         <div class="form-group">
             <label class="col-md-4 control-label">&nbsp;</label>
 
             <div class="col-md-6">
-                <a href="{{ asset('storage/ebooks/'.$eBook->filename) }}" target="_blank"
+                <a href="{{ asset('storage/ebooks/'.$ebook->filename) }}" target="_blank"
                     class="btn btn-sm btn-warning">
                         <i class="fa fa-eye"></i> View
                 </a>
@@ -97,11 +118,11 @@
                 <div class="modal-body">
                     <p class="lead">
                         <i class="fa fa-question-circle fa-lg"></i> &nbsp;
-                        Are you sure you want to delete this eBook?
+                        Are you sure you want to delete this ebook?
                     </p>
                 </div>
                 <div class="modal-footer">
-                    <form method="POST" action="{{ route('ebooks.destroy', $eBook->slug) }}">
+                    <form method="POST" action="{{ route('ebooks.destroy', $ebook->slug) }}">
                         {{ csrf_field() }}
                         {{ method_field('DELETE') }}
                         <button type="button" class="btn btn-default"
@@ -132,7 +153,7 @@
                     </p>
                 </div>
                 <div class="modal-footer">
-                    <form method="POST" action="{{ route('ebooks.deletefile', $eBook->slug) }}">
+                    <form method="POST" action="{{ route('ebooks.deletefile', $ebook->slug) }}">
                         {{ csrf_field() }}
                         {{ method_field('DELETE') }}
                         <button type="button" class="btn btn-default"
@@ -146,4 +167,14 @@
         </div>
     </div>
     @endcomponent
+@endsection
+
+@section('scripts')
+  <script>
+    $(document).ready(function() {
+        $('#tags').select2({
+            placeholder: "Select a tags..."
+        });
+    });
+  </script>
 @endsection

@@ -3,7 +3,7 @@
 @section('content')
     @component('components.panelWithHeading')
         @slot('title')
-            EBooks - Create
+            Ebooks - Create
         @endslot
 
     <form class="form-horizontal" method="POST" action="{{ route('ebooks.store') }}" enctype="multipart/form-data">
@@ -49,6 +49,27 @@
             </div>
         </div>
 
+        <div class="form-group{{ $errors->has('tags') ? ' has-error' : '' }}">
+            <label for="tags" class="col-md-4 control-label">Tags</label>
+
+            <div class="col-md-6">
+                <select name="tags[]"
+                    id="tags"
+                    class="form-control"
+                    multiple>
+                    @if (count($allTags) > 0) 
+                        @foreach ($allTags as $tag)
+                            <option value="{{ $tag->id }}" {{ (collect(old('tags'))->contains($tag->id)) ? 'selected' : '' }}>
+                                {{ $tag->name }}
+                            </option>
+                        @endforeach
+                    @endif
+                </select>
+
+                {!! $errors->first('tags', '<span class="help-block">:message</span>') !!}
+            </div>
+        </div>
+
         <div class="form-group">
             <div class="col-md-6 col-md-offset-4">
                 <button type="submit" class="btn btn-primary btn-lg">
@@ -61,4 +82,14 @@
         </div>
     </form>
     @endcomponent
+@endsection
+
+@section('scripts')
+  <script>
+    $(document).ready(function() {
+        $('#tags').select2({
+            placeholder: "Select a tags..."
+        });
+    });
+  </script>
 @endsection

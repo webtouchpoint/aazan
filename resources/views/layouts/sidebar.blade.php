@@ -32,13 +32,36 @@
 		    <h3>Tags</h3>
 		    
 			<ol class="list-unstyled">
-				@foreach($tags as $tag)
-					<li>
-						<a href="{{ url('posts/tags/'.$tag->slug) }}">
-							{{ $tag->name}}
-						</a>
-					</li>
-				@endforeach
+        @if (!is_video_or_ebook())
+  				@foreach($tags->where('type', 'blog') as $tag)
+  					<li>
+  						<a href="{{ url('posts/tags/'.$tag->slug) }}">
+  							{{ $tag->name}} <span class="badge">blog</span>
+  						</a>
+  					</li>
+  				@endforeach
+        @endif
+
+        @if (check_page('ebooks') || check_page('ebooks/*'))
+          @foreach($tags->where('type', 'ebook') as $tag)
+            <li>
+              <a href="{{ url('ebooks/tags/'.$tag->slug) }}">
+                {{ $tag->name}} <span class="badge">ebook</span>
+              </a>
+            </li>
+          @endforeach
+        @endif
+
+
+        @if (check_page('videos') || check_page('videos/*'))
+          @foreach($tags->where('type', 'video') as $tag)
+            <li>
+              <a href="{{ url('videos/tags/'.$tag->slug) }}">
+                {{ $tag->name}} <span class="badge">video</span>
+              </a>
+            </li>
+          @endforeach
+        @endif
 			</ol>
 	    </div>
 	@endif

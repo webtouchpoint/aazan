@@ -18,7 +18,7 @@ class AppServiceProvider extends ServiceProvider
         \Schema::defaultStringLength(191);
 
         \View::composer('*', function($view) {
-            $tags = Tag::select('name', 'slug')
+            $tags = Tag::select('name', 'slug', 'type')
                 ->get();
             $AllNews = News::select('title', 'filename')
                 ->orderBy('id', 'desc')

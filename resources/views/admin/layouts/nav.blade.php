@@ -15,7 +15,7 @@
 			<!-- Left Side Of Navbar -->
 			<ul class="nav navbar-nav">
 				<li><a href="{{ url('/') }}" target="_blank">Go to website</a></li>
-				<li class="{{ set_active('admin/ebooks') }} {{ set_active('admin/ebooks/*') }}"><a href="{{ route('ebooks.index') }}">EBooks</a></li>
+				<li class="{{ set_active('admin/ebooks') }} {{ set_active('admin/ebooks/*') }}"><a href="{{ route('ebooks.index') }}">Ebooks</a></li>
 				<li class="{{ set_active('admin/posts') }} {{ set_active('admin/posts/*') }}"><a href="{{ route('posts.index') }}">Posts</a></li>
 				<li class="{{ set_active('admin/videos') }} {{ set_active('admin/videos/*') }}"><a href="{{ route('videos.index') }}">Videos</a></li>
 				<li class="{{ set_active('admin/news') }} {{ set_active('admin/news/*') }}"><a href="{{ route('news.index') }}">News</a></li>

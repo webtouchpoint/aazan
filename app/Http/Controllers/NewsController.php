@@ -4,13 +4,18 @@ namespace App\Http\Controllers;
 
 use App\News;
 use Illuminate\Http\Request;
+use App\Services\UploadManager;
 use Illuminate\Support\Facades\Storage;
 
 class NewsController extends Controller
 {
-     public function __construct()
+    protected $uploadManager;
+
+    public function __construct(UploadManager $uploadManager)
     {
         $this->middleware(['auth', 'admin']);
+
+        $this->uploadManager = $uploadManager;
     }
 
     /**
@@ -45,15 +50,11 @@ class NewsController extends Controller
     {
         $validatedData = $this->validateData($request);
 
-        if ($request->hasFile('filename')) {
-            $path = $request->filename->store('public/news');
-        }
-
         if ($request->file('filename')->isValid()) {
-            
-            $validatedData = array_merge($validatedData, ['filename' => $request->filename->hashName()]);
 
-            News::create($validatedData);
+            $news = News::create($validatedData);
+
+            $this->uploadManager->upload($news, $request, 'public/news');
 
             flash('News has been saved!');
 
@@ -93,33 +94,19 @@ class NewsController extends Controller
      */
     public function update(Request $request, News $news)
     {
-        if ($request->hasFile('filename')) {
-            $validatedData = $this->validateData($request);
-
-            $path = $request->filename->store('public/news');
-            
-
-            if ($request->file('filename')->isValid()) {
-                
-                $validatedData = array_merge($validatedData, ['filename' => $request->filename->hashName()]);
-
-                $news->update($validatedData);
-
-                flash('News has been updated!');
-
-                return redirect()
-                    ->route('news.index');
-            }
-        }
-
         $validatedData =  $request->validate([
             'user_id' => 'required|exists:users,id',
             'title' => 'required',
             'description' => 'required',
         ]);
 
-
         $news->update($validatedData);
+
+        if ($request->hasFile('filename')) {
+            if ($request->file('filename')->isValid()) {
+                $this->uploadManager->upload($news, $request, 'public/news');
+            }
+        }
 
         flash('News has been updated!');
 

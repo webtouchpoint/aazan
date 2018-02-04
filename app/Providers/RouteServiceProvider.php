@@ -27,7 +27,6 @@ class RouteServiceProvider extends ServiceProvider
 
         parent::boot();
 
-        Route::model('ebook', \App\EBook::class);
     }
 
     /**

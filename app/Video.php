@@ -5,12 +5,13 @@ namespace App;
 use App\Model;
 use App\Traits\{
 	Sluggable,
+    SyncTags,
 	Live
 };
 
 class Video extends Model
 {
-	use Sluggable, Live;
+	use Sluggable, SyncTags, Live;
 
 	/**
 	 * Get the route key for the model.
@@ -21,4 +22,9 @@ class Video extends Model
 	{
 	    return 'slug';
 	}
+
+	public function tags()
+    {
+        return $this->morphToMany(Tag::class, 'taggable');
+    }
 }

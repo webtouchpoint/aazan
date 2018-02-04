@@ -3,11 +3,11 @@
 @section('content')
 <div class="row page-title-row">
     <div class="col-md-6">
-        <h3>EBooks <small>&raquo; Listing</small></h3>
+        <h3>Ebooks <small>&raquo; Listing</small></h3>
     </div>
     <div class="col-md-6 text-right">
         <a href="{{ route('ebooks.create') }}" class="btn btn-success btn-md">
-            <i class="fa fa-plus-circle"></i> New EBook
+            <i class="fa fa-plus-circle"></i> New Ebook
         </a>
     </div>
 </div>

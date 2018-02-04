@@ -28,6 +28,27 @@
             </div>
         </div>
 
+        <div class="form-group{{ $errors->has('tags') ? ' has-error' : '' }}">
+            <label for="tags" class="col-md-4 control-label">Tags</label>
+
+            <div class="col-md-6">
+                <select name="tags[]"
+                    id="tags"
+                    class="form-control"
+                    multiple>
+                    @if (count($allTags) > 0) 
+                        @foreach ($allTags as $tag)
+                            <option value="{{ $tag->id }}" {{ (collect(old('tags', $video->tags()->allRelatedIds()))->contains($tag->id)) ? 'selected' : '' }}>
+                                {{ $tag->name }}
+                            </option>
+                        @endforeach
+                    @endif
+                </select>
+
+                {!! $errors->first('tags', '<span class="help-block">:message</span>') !!}
+            </div>
+        </div>
+
         @if($video->link)
             <div class="form-group">
                 <label class="col-md-4 control-label">&nbsp;</label>

@@ -6,12 +6,13 @@ use App\Model;
 
 use App\Traits\{
     Sluggable,
-    live
+    live,
+    SyncTags
 };
 
 class Post extends Model
 {
-    use Sluggable, Live;
+    use Sluggable, SyncTags, Live;
 
   	protected $dates = ['published_at'];
     
@@ -52,20 +53,5 @@ class Post extends Model
     public function getContentAttribute($content) 
     {
         return \Purify::clean($content);
-    }
-
-    /**
-     * Sync tag relation adding new tags as needed
-     *
-     * @param array $tags
-     */
-    public function syncTags(array $tags)
-    {
-        if (count($tags)) {
-            $this->tags()->sync($tags);
-            return;
-        }
-
-        $this->tags()->detach();
     }
 }

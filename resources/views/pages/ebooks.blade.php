@@ -1,7 +1,15 @@
 @extends('layouts.master')
 
 @section('content')
-    <h1>Ebooks</h1>
+    <h1>Ebooks <small>
+        @if (check_page('ebooks/tags/*'))
+            &raquo;
+             <a href="{{ url('ebooks/tags/'.show_tag()) }}">
+                {{ ucfirst(str_replace('-', ' ', show_tag())) }}
+            </a>
+        @endif
+        </small>
+    </h1> 
     <hr>
     <table class="table table-bordered table-ebooks">
         <thead>

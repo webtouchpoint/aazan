@@ -16,7 +16,6 @@ Route::get('admin', function () {
     return redirect('/admin/ebooks');
 });
 
-
 Route::get('posts/tags/{tag}', 'TagsController@getPostsByTagName');
 Route::get('blog', 'BlogController@index')->name('blog.index');
 Route::get('blog/{slug}', 'BlogController@showPost')->name('blog.show');;
@@ -36,7 +35,7 @@ Route::prefix('admin')->group(function() {
 
 Route::get('/', function () {
 	$posts = App\Post::orderBy('id', 'desc')->take(5)->get();
-	$ebooks = App\EBook::orderBy('id', 'desc')->take(3)->get();
+	$ebooks = App\Ebook::orderBy('id', 'desc')->take(3)->get();
 	$videos = App\video::orderBy('id', 'desc')->take(3)->get();
     return view('welcome', compact('posts', 'ebooks', 'videos'));
 });
@@ -49,6 +48,8 @@ Route::get('/news', 'PagesController@showNews')->name('pages.news');
 Route::post('/contact', 'PagesController@sendContactMail');
 Route::get('/contact', 'PagesController@showContactPage')->name('pages.contact');
 Route::get('/about', 'PagesController@showAboutPage')->name('pages.about');
+Route::get('videos/tags/{tag}', 'TagsController@getVideosByTagName');
 Route::get('/videos', 'PagesController@showVideos')->name('pages.videos');
-Route::get('/ebooks', 'PagesController@showEBooks')->name('pages.ebooks');
+Route::get('ebooks/tags/{tag}', 'TagsController@getEbooksByTagName');
+Route::get('/ebooks', 'PagesController@showEbooks')->name('pages.ebooks');
 Route::get('/home', 'HomeController@index')->name('home');

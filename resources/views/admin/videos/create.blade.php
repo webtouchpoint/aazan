@@ -11,3 +11,13 @@
 	    </form>
     @endcomponent
 @endsection
+
+@section('scripts')
+  <script>
+    $(document).ready(function() {
+        $('#tags').select2({
+            placeholder: "Select a tags..."
+        });
+    });
+  </script>
+@endsection

@@ -17,6 +17,7 @@
 <table class="table table-bordered" id="tags-table">
     <thead>
         <th>Name</th>
+        <th>Type</th>
         <th>Actions</th>
     </thead>   
     <tbody>
@@ -24,6 +25,9 @@
             <tr>
                 <td>
                     {{ $tag->name }}
+                </td>
+                <td>
+                    {{ $tag->type }}
                 </td>
                 <td>
                     <a href="{{ route('tags.edit', $tag->slug) }}"

@@ -21,6 +21,7 @@ class CreateTagsTable extends Migration
                 ->onDelete('cascade');
             $table->string('name');
             $table->string('slug')->unique();
+            $table->string('type');
             $table->softDeletes();
             $table->timestamps();
         });

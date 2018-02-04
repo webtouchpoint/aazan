@@ -5,14 +5,19 @@ namespace App\Http\Controllers;
 use App\Tag;
 use App\Post;
 use Illuminate\Http\Request;
+use App\Services\UploadManager;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\CreatePostRequest;
 
 class PostsController extends Controller
 {
-    public function __construct()
+    protected $uploadManager;
+
+    public function __construct(UploadManager $uploadManager)
     {
         $this->middleware(['auth', 'admin']);
+
+        $this->uploadManager = $uploadManager;
     }
 
     /**
@@ -36,7 +41,7 @@ class PostsController extends Controller
     {
         return view('admin.posts.create', [
             'post' => new Post,
-            'allTags' => Tag::all()
+            'allTags' => Tag::where('type', 'blog')->get()
         ]);
     }
 
@@ -50,18 +55,13 @@ class PostsController extends Controller
     {
         $validatedData = $request->postFillData();
 
-        if ($request->hasFile('image')) {
-            $path = $request->image->store('public/posts/images');
-
-            if ($request->file('image')->isValid()) {
-                
-                $validatedData = array_merge($validatedData, ['image' => $request->image->hashName()]);
-            }
-        }
-
         $post = Post::create($validatedData);
 
-        if($request->has('tags')) {
+        if ($request->hasFile('image')) {
+            $this->uploadManager->upload($post, $request, 'public/posts/images', 'image');
+        }
+
+        if ($request->has('tags')) {
             $post->syncTags($request->tags);
         }
 
@@ -91,7 +91,7 @@ class PostsController extends Controller
     public function edit(Post $post)
     {
         $post->load('tags');
-        $allTags = Tag::all();
+        $allTags = Tag::where('type', 'blog')->get();
 
         return view('admin.posts.edit', compact('post', 'allTags'));
     }
@@ -108,16 +108,12 @@ class PostsController extends Controller
         $validatedData = $request->postFillData();
 
         if ($request->hasFile('image')) {
-            $path = $request->image->store('public/posts/images');
-
-            if ($request->file('image')->isValid()) {
-                
-                $validatedData = array_merge($validatedData, ['image' => $request->image->hashName()]);
-            }
             
             $post->update($validatedData);
 
-            if($request->has('tags')) {
+            $this->uploadManager->upload($post, $request, 'public/posts/images', 'image');
+
+            if ($request->has('tags')) {
                 $post->syncTags($request->tags);
             }
 

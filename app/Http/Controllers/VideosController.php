@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Tag;
 use App\Video;
 use Illuminate\Http\Request;
 
@@ -32,7 +33,8 @@ class VideosController extends Controller
     public function create()
     {
         return view('admin.videos.create', [
-            'video' => new Video
+            'video' => new Video,
+            'allTags' => Tag::where('type', 'video')->get()
         ]);
     }
 
@@ -46,7 +48,11 @@ class VideosController extends Controller
     { 
         $validatedData = $this->validateData($request);
 
-        Video::create($validatedData);
+        $video = Video::create($validatedData);
+
+        if ($request->has('tags')) {
+            $video->syncTags($request->tags);
+        }
 
         flash('Video has been saved!');
 
@@ -73,7 +79,9 @@ class VideosController extends Controller
      */
     public function edit(Video $video)
     {
-        return view('admin.videos.edit', compact('video'));
+        $allTags = Tag::where('type', 'video')->get();
+
+        return view('admin.videos.edit', compact('video', 'allTags'));
     }
 
     /**
@@ -88,6 +96,10 @@ class VideosController extends Controller
         $validatedData = $this->validateData($request);
 
         $video->update($validatedData);
+        
+        if ($request->has('tags')) {
+            $video->syncTags($request->tags);
+        }
 
         flash('Video has been updated!');
 

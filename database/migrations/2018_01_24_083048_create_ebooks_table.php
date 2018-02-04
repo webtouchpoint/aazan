@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateEBooksTable extends Migration
+class CreateEbooksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateEBooksTable extends Migration
      */
     public function up()
     {
-        Schema::create('e_books', function (Blueprint $table) {
+        Schema::create('ebooks', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('user_id')->index();
             $table->foreign('user_id')
@@ -22,7 +22,7 @@ class CreateEBooksTable extends Migration
             $table->string('slug')->unique();
             $table->string('title');
             $table->text('description');
-            $table->string('filename');
+            $table->string('filename')->nullable();
             $table->boolean('live')->default(true);
             $table->softDeletes();
             $table->timestamps();
@@ -36,6 +36,6 @@ class CreateEBooksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('e_books');
+        Schema::dropIfExists('ebooks');
     }
 }

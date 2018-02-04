@@ -22,7 +22,7 @@ class CreateNewsTable extends Migration
             $table->string('slug')->unique();
             $table->string('title');
             $table->text('description');
-            $table->string('filename');
+            $table->string('filename')->nullable();
             $table->boolean('live')->default(true);
             $table->softDeletes();
             $table->timestamps();

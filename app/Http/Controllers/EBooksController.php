@@ -2,15 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\EBook;
+use App\Tag;
+use App\Ebook;
 use Illuminate\Http\Request;
+use App\Services\UploadManager;
 use Illuminate\Support\Facades\Storage;
 
-class EBooksController extends Controller
+class EbooksController extends Controller
 {
-    public function __construct()
+    protected $uploadManager;
+
+    public function __construct(UploadManager $uploadManager)
     {
         $this->middleware(['auth', 'admin']);
+
+        $this->uploadManager = $uploadManager;
     }
     
     /**
@@ -20,7 +26,7 @@ class EBooksController extends Controller
      */
     public function index()
     {
-        $ebooks = EBook::all();
+        $ebooks = Ebook::all();
 
         return view('admin.ebooks.index', compact('ebooks'));
     }
@@ -32,7 +38,9 @@ class EBooksController extends Controller
      */
     public function create()
     {
-        return view('admin.ebooks.create');
+        return view('admin.ebooks.create', [
+            'allTags' => Tag::where('type', 'ebook')->get()
+        ]);
     }
 
     /**
@@ -45,29 +53,30 @@ class EBooksController extends Controller
     {
         $validatedData = $this->validateData($request);
 
-        if ($request->hasFile('filename')) {
-            $path = $request->filename->store('public/ebooks');
-        }
-
         if ($request->file('filename')->isValid()) {
             
-            $validatedData = array_merge($validatedData, ['filename' => $request->filename->hashName()]);
+            $ebook = Ebook::create($validatedData);
 
-            EBook::create($validatedData);
+            $this->uploadManager->upload($ebook, $request, 'public/ebooks');
 
-            flash('EBook has been saved!');
+            if ($request->has('tags')) {
+                $ebook->syncTags($request->tags);
+            }
 
-            return redirect(route('ebooks.index'));
+            flash('Ebook has been saved!');
+
+            return redirect()
+                ->route('ebooks.index');
         }
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\EBook  $eBook
+     * @param  \App\Ebook  $ebook
      * @return \Illuminate\Http\Response
      */
-    public function show(EBook $eBook)
+    public function show(Ebook $ebook)
     {
 
     }
@@ -75,81 +84,76 @@ class EBooksController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\EBook  $eBook
+     * @param  \App\Ebook  $ebook
      * @return \Illuminate\Http\Response
      */
-    public function edit(EBook $eBook)
+    public function edit(Ebook $ebook)
     {
-        return view('admin.ebooks.edit', compact('eBook'));
+        $allTags = Tag::where('type', 'ebook')->get();
+
+        return view('admin.ebooks.edit', compact('ebook', 'allTags'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\EBook  $eBook
+     * @param  \App\Ebook  $ebook
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, EBook $eBook)
+    public function update(Request $request, Ebook $ebook)
     {
-        if ($request->hasFile('filename')) {
-            $validatedData = $this->validateData($request);
-
-            $path = $request->filename->store('public/ebooks');
-            
-
-            if ($request->file('filename')->isValid()) {
-                
-                $validatedData = array_merge($validatedData, ['filename' => $request->filename->hashName()]);
-
-                $eBook->update($validatedData);
-
-                flash('EBook has been updated!');
-
-                return redirect(route('ebooks.index'));
-            }
-        }
-
         $validatedData =  $request->validate([
             'user_id' => 'required|exists:users,id',
             'title' => 'required',
             'description' => 'required',
         ]);
 
+        $ebook->update($validatedData);
 
-        $eBook->update($validatedData);
+        if ($request->hasFile('filename')) {
+            if ($request->file('filename')->isValid()) {
+                $this->uploadManager->upload($ebook, $request, 'public/ebooks');
+            }
+        }
 
-        flash('EBook has been updated!');
+        if ($request->has('tags')) {
+            $ebook->syncTags($request->tags);
+        }
 
-        return redirect(route('ebooks.index'));
+        flash('Ebook has been updated!');
+
+        return redirect()
+            ->route('ebooks.index');
 
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\EBook  $eBook
+     * @param  \App\Ebook  $ebook
      * @return \Illuminate\Http\Response
      */
-    public function destroy(EBook $eBook)
+    public function destroy(Ebook $ebook)
     {
-        if($eBook->filename) {
-            Storage::delete('public/ebooks/'.$eBook->filename);
+        if($ebook->filename) {
+            Storage::delete('public/ebooks/'.$ebook->filename);
         }
                 
-        $eBook->delete();
+        $ebook->delete();
 
-        flash('The EBook has been deleted!');
+        flash('Ebook has been deleted!');
 
-        return redirect(route('ebooks.index'));
+        return redirect()
+            ->route('ebooks.index');
     }
 
-    public function deleteFile(EBook $eBook)
+    public function deleteFile(Ebook $ebook)
     {
-        if($eBook->filename) {
-            Storage::delete('public/ebooks/'.$eBook->filename);
-            $eBook->filename = '';
-            $eBook->save();
+        if($ebook->filename) {
+            Storage::delete('public/ebooks/'.$ebook->filename);
+            $ebook->filename = '';
+            $ebook->save();
             flash('The file has been deleted!');
         }
 

@@ -1,7 +1,16 @@
 @extends('layouts.master')
 
 @section('content')
-    <h1>Video</h1>
+    <h1>Video 
+        <small>
+            @if (check_page('videos/tags/*'))
+                &raquo;
+                 <a href="{{ url('videos/tags/'.show_tag()) }}">
+                    {{ ucfirst(str_replace('-', ' ', show_tag())) }}
+                </a>
+            @endif
+        </small>
+    </h1>
     <hr>
     @forelse($videos as $video)
     <div class="video-container">

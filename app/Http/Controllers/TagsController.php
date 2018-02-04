@@ -34,6 +34,20 @@ class TagsController extends Controller
         return view('blog.index', compact('posts'));
     }
 
+    public function getEbooksByTagName(Tag $tag)
+    {
+        $ebooks = $tag->ebooks()->get();
+
+        return view('pages.ebooks', compact('ebooks'));
+    }
+
+    public function getVideosByTagName(Tag $tag)
+    {
+        $videos = $tag->videos()->get();
+
+        return view('pages.videos', compact('videos'));
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -56,7 +70,8 @@ class TagsController extends Controller
     {
         $validatedData = $request->validate([
             'user_id' => 'required|exists:users,id',
-            'name' => 'required|unique:tags'
+            'name' => 'required|unique:tags',
+            'type' => 'required|in:blog,ebook,video'
         ]);
 
         Tag::create($validatedData);
@@ -99,7 +114,8 @@ class TagsController extends Controller
     {
         $validatedData = $request->validate([
             'user_id' => 'required|exists:users,id',
-            'name' => 'required'
+            'name' => 'required',
+            'type' => 'required|in:blog,ebook,video'
         ]);
 
         $tag->update($validatedData);
