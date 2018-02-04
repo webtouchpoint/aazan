@@ -1,7 +1,8 @@
 @extends('layouts.master')
 
 @section('content')
-    <h2>All News</h2>
+    <h1>News</h1>
+    <hr>
     <table class="table table-bordered">
         <thead>
             <tr>

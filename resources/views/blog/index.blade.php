@@ -23,7 +23,7 @@
              <em>({{ $post->published_at->format('M jS Y g:ia') }})</em>
            </h4>
            <a href="/blog/{{ $post->slug }}">
-              {!! str_limit($post->content, 250) !!}
+              {{ $post->teaser }}
            </a>
           </div>
         </div>

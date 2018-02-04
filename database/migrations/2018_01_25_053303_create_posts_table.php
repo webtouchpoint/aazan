@@ -21,6 +21,7 @@ class CreatePostsTable extends Migration
                 ->onDelete('cascade');
             $table->string('slug')->unique();
             $table->string('title');
+            $table->text('teaser');
             $table->text('content');
             $table->string('image')->nullable();
             $table->timestamp('published_at')->index();

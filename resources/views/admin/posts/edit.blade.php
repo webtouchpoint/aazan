@@ -24,6 +24,21 @@
             </div>
         </div>
 
+
+        <div class="form-group{{ $errors->has('teaser') ? ' has-error' : '' }}">
+            <label for="teaser" class="col-md-4 control-label">Teaser / Introduction</label>
+
+            <div class="col-md-6">
+                <textarea id="teaser" 
+                    type="text" 
+                    class="form-control" 
+                    rows="5" 
+                    name="teaser">{{ old('teaser', $post->teaser) }}</textarea>
+
+                {!! $errors->first('teaser', '<span class="help-block">:message</span>') !!}
+            </div>
+        </div>
+
         <div class="form-group{{ $errors->has('content') ? ' has-error' : '' }}">
             <label for="content" class="col-md-4 control-label">Content</label>
 

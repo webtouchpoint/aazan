@@ -22,7 +22,7 @@
 
 	@yield('styles')
 </head>
-<body>
+<body style="padding-top: 70px;">
 	@include('admin.layouts.nav')
 	<div class="container-fluid" id="app">
 		<div class="row">

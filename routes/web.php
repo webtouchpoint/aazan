@@ -35,7 +35,10 @@ Route::prefix('admin')->group(function() {
 
 
 Route::get('/', function () {
-    return view('welcome');
+	$posts = App\Post::orderBy('id', 'desc')->take(5)->get();
+	$ebooks = App\EBook::orderBy('id', 'desc')->take(3)->get();
+	$videos = App\video::orderBy('id', 'desc')->take(3)->get();
+    return view('welcome', compact('posts', 'ebooks', 'videos'));
 });
 
 // Authentication

@@ -1,7 +1,8 @@
 @extends('layouts.master')
 
 @section('content')
-    <h2>Download EBooks</h2>
+    <h1>Ebooks</h1>
+    <hr>
     <table class="table table-bordered table-ebooks">
         <thead>
             <tr>

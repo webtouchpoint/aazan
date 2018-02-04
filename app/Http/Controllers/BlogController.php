@@ -11,7 +11,7 @@ class BlogController extends Controller
    	public function index()
     {
         // where('published_at', '<=', Carbon::now())
-        $posts = Post::latestFirst()
+        $posts = Post::latest()
             ->isLive()
             ->paginate(config('blog.posts_per_page'));
 

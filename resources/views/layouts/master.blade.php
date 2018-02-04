@@ -19,6 +19,8 @@
 
 </head>
 <body>
+	<div class="wrapper">
+	<!-- @include('layouts.header') -->
 	@include('layouts.nav')
 	<div class="container" id="app">
 		<div class="row">
@@ -43,7 +45,7 @@
 		@include('layouts.footer')
 
 	</div><!--/.container-->
-
+</div>
 	<!-- Scripts -->
 	<script src="{{ asset('js/app.js') }}"></script>
 	<script>

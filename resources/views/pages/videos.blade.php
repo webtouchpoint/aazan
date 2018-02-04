@@ -1,8 +1,8 @@
 @extends('layouts.master')
 
 @section('content')
-    <h2>Video</h2>
-
+    <h1>Video</h1>
+    <hr>
     @forelse($videos as $video)
     <div class="video-container">
         <h4>{{ $video->title }}</h4>

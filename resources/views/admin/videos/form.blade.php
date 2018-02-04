@@ -28,16 +28,18 @@
             </div>
         </div>
 
-        <div class="form-group">
-            <label class="col-md-4 control-label">&nbsp;</label>
+        @if($video->link)
+            <div class="form-group">
+                <label class="col-md-4 control-label">&nbsp;</label>
 
-            <div class="col-md-6">
-                <a href="{{ $video->link }}" target="_blank"
-                    class="btn btn-sm btn-warning">
-                        <i class="fa fa-eye"></i> View
-                </a>
+                <div class="col-md-6">
+                    <a href="{{ $video->link }}" target="_blank"
+                        class="btn btn-sm btn-warning">
+                            <i class="fa fa-eye"></i> View
+                    </a>
+                </div>
             </div>
-        </div>
+        @endif
 
         <div class="form-group{{ $errors->has('link') ? ' has-error' : '' }}">
             <label for="link" class="col-md-4 control-label">Video Link</label>

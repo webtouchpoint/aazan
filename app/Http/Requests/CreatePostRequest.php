@@ -28,6 +28,7 @@ class CreatePostRequest extends FormRequest
         return [
             'user_id' => 'required|exists:users,id',
             'title' => 'required',
+            'teaser' => 'required',
             'content' => 'required',
             'tags' => 'required',
             'image' => 'nullable|mimes:pdf,jpeg,bmp,png'
@@ -46,6 +47,7 @@ class CreatePostRequest extends FormRequest
         return [
             'user_id' => $this->user_id,
             'title' => $this->title,
+            'teaser' => $this->teaser,
             'content' => $this->get('content'),
             'image' => $this->image,
             'published_at' => $published_at

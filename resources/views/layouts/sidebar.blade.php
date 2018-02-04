@@ -14,7 +14,7 @@
             </li>
             @endforeach
             <li>
-                <a href="{{ route('pages.news') }}" target="_blank">
+                <a href="{{ route('pages.news') }}">
                   all news...
                 </a>
             </li>

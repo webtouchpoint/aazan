@@ -13,11 +13,18 @@ body {
   overflow-x: hidden; /* Prevent scroll on narrow devices */
 }
 body {
-  padding-top: 70px;
+	padding-top: 70px;
+  // background-image: url("/images/bg.jpg");
 }
 
-// Change a height of a standard Bootstrap navbar.
-@import "navbar";
+// .blog-brand {
+// 	color: #777;
+// 	text-decoration: none!important;
+// }
+
+.carousel-caption {
+	text-align: left;
+}
 
 // Pages
 @import "pages/ebooks";
