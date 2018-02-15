@@ -7,7 +7,7 @@
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 	<meta name="description" content="">
 	<meta name="author" content="">
-	<link rel="icon" href="../../favicon.ico">
+	<link rel="icon" type="image/png" href="/images/favicon.png">
 
 	<!-- CSRF Token -->
 	<meta name="csrf-token" content="{{ csrf_token() }}">
@@ -20,7 +20,7 @@
 </head>
 <body>
 	<div class="wrapper">
-	<!-- @include('layouts.header') -->
+	@include('layouts.header')
 	@include('layouts.nav')
 	<div class="container" id="app">
 		<div class="row">
