@@ -50,6 +50,10 @@ class Post extends Model
         return $this->morphToMany(Tag::class, 'taggable');
     }
 
+    /**
+     * Purify raw content
+     * 
+     */
     public function getContentAttribute($content) 
     {
         return \Purify::clean($content);
