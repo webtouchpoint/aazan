@@ -36,7 +36,7 @@ Route::prefix('admin')->group(function() {
 Route::get('/', function () {
 	$posts = App\Post::orderBy('id', 'desc')->take(5)->get();
 	$ebooks = App\Ebook::orderBy('id', 'desc')->take(3)->get();
-	$videos = App\video::orderBy('id', 'desc')->take(3)->get();
+	$videos = App\Video::orderBy('id', 'desc')->take(3)->get();
     return view('welcome', compact('posts', 'ebooks', 'videos'));
 });
 
