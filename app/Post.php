@@ -6,7 +6,7 @@ use App\Model;
 
 use App\Traits\{
     Sluggable,
-    live,
+    Live,
     SyncTags
 };
 
